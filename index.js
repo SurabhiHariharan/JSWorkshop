@@ -1,20 +1,18 @@
+const students = require('./data')
 const data = require('./data')
 
 const transformStudent = (student) =>{
     const {english, social, science} = student.marks
-    return `${student.id}, ${student.name}, English: ${english}, Social: ${social}, Science: ${science}, Total: ${student.totalMark}, Rank: ${student.rank || 'F'}, ${student.isPassed? 'P': 'F'}`
+    return `${student.id}, ${student.name}, English: ${english}, Social: ${social}, Science: ${science}, Total: ${student.totalMark}, Rank: ${student.rank || 'F'}}`
 }
 
 const transformStudents = (students) => {
     return students.map(transformStudent)
 }
 
-const logResult = (result) => {
-    console.log(result)
-}
-
-const logResults = (results) => {
-    results.map(logResult)
+const displayStudentMarkList = (students) => {
+    const transformed = students.map(({marks, ...rest})=> ({...rest, ...marks}))
+    console.table(transformed)
 }
 
 const calculateTotal = (student) => {
@@ -42,8 +40,7 @@ const processStudents = (students)  => {
 const main = () => {
     const processedStudents = processStudents(data)
     const rankedStudents = getRanks(processedStudents)
-    const transformedResults = transformStudents(rankedStudents)
-    logResults(transformedResults)
+    displayStudentMarkList(rankedStudents)
         
 }
 
